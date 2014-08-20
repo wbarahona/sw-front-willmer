@@ -1,0 +1,83 @@
+<div class="jumbotron">
+  <h1>Edges</h1>
+  <p class="lead">
+    List all the edges data!
+  </p>
+  <p>So fucking awesome!</p>
+</div>
+
+<div class="row">
+    <div class="col-md-8" ng-controller="FiltersController">
+        <div class="form-group col-xs-4">
+            <label for="search">Search by Name:</label>
+            <input type="search" name="search" ng-model="filterBy.search" class="form-control" />
+        </div>
+        <div class="form-group col-xs-4">
+            <label for="category">Category:</label>
+            <select
+            name="category" id="category"
+            ng-model="filterBy.category"
+            ng-options="c.name for c in categories"
+            class="form-control">
+            </select>
+        </div>
+        <div class="form-group col-xs-4">
+            <label for="rank">Rank:</label>
+            <select
+            name="rank" id="rank"
+            ng-model="filterBy.rank"
+            ng-options="r.name for r in ranks"
+            class="form-control">
+            </select>
+        </div>
+        <ul id="edges" class="col-md-12">
+            <li ng-repeat-start="edge in edges | filter:{name:filterBy.search} | edges:filterBy" >
+                <span class="label label-default">{{edge.category.name}}</span>
+                <span ng-click="selectEdge(edge)">{{edge.name}}</span>
+                <span class="text-muted">({{displayRequirements(edge.requirements)}})</span>
+                <a href="" ng-click="deleteEdge(edge)"><i class="fa fa-eraser"></i></a>
+            </li>
+            <li ng-repeat-end ng-show="isSelected(edge)" style="list-style:none;">
+                <b>{{edge.description}}</b>
+            </li>
+        </ul>
+    </div>
+    <div ng-show="isLoggedIn()" class="panel panel-primary col-md-4" style="padding:0;">
+        <div class="panel-heading">
+            <h3 class="panel-title">Create New Edge</h3>
+        </div>
+        <div class="panel-body">
+            <form name="newEdgeForm" ng-submit="createEdge()" ng-controller="newEdgeController">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" name="name" ng-model="newEdge.name" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <textarea name="description" class="form-control" ng-model="newEdge.description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="category">Category:</label>
+                    <select
+                    name="category" id="category"
+                    ng-model="newEdge.category"
+                    ng-options="c.name for c in categories"
+                    class="form-control">
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="rank">Rank:</label>
+                    <select
+                    name="rank" id="rank"
+                    ng-model="newEdge.rank"
+                    ng-options="r.name for r in ranks"
+                    class="form-control">
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
